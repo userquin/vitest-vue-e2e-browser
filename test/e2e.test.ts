@@ -1,13 +1,18 @@
+/// <reference types="vitest" />
+
 import { createApp, nextTick } from 'vue'
 import { createDefer } from 'vitest/utils'
 import type { RouteLocationNormalized } from 'vue-router'
 import { createRouter } from '../src/create-router'
 import App from '../src/App.vue'
 
-const routePromises: Record<string, Promise<void>> = {}
+const routePromises: Record<string, Promise<void> & {
+  resolve: () => void
+  reject: (error?: any) => void
+}> = {}
 
 function findPromise(route: RouteLocationNormalized) {
-  return routePromises[route.path] ?? routePromises[route.name]
+  return routePromises[route.path] ?? (route.name ? routePromises[route.name.toString()] : undefined)
 }
 
 it('Testing App Routing', async () => {
@@ -37,28 +42,28 @@ it('Testing App Routing', async () => {
   expect(container.innerHTML).toContain('Home page content goes here.')
   expect(container.innerHTML).toContain('e2e testing home')
   // expect(container.innerHTML).toMatchSnapshot()
-  let button: HTMLButtonElement = container.querySelector('button')
+  let button: HTMLButtonElement | null = container.querySelector('button')
   expect(button).toBeTruthy()
-  button.click()
+  button?.click()
   await nextTick()
   await nextTick()
-  expect(button.innerHTML).toContain('count is 1')
-  const link: HTMLAnchorElement = container.querySelector('a[href$="about"]')
+  expect(button?.innerHTML).toContain('count is 1')
+  const link: HTMLAnchorElement | null = container.querySelector('a[href$="about"]')
   expect(link).toBeTruthy()
   const about = createDefer<void>()
   routePromises.about = about
-  link.click()
+  link?.click()
   await about
   expect(container.innerHTML).toContain('About')
   expect(container.innerHTML).toContain('About page content goes here.')
   expect(container.innerHTML).toContain('e2e testing about')
   button = container.querySelector('button')
   expect(button).toBeTruthy()
-  expect(button.innerHTML).toContain('count is 0')
-  button.click()
+  expect(button?.innerHTML).toContain('count is 0')
+  button?.click()
   await nextTick()
   await nextTick()
-  expect(button.innerHTML).toContain('count is 1')
+  expect(button?.innerHTML).toContain('count is 1')
   const index = createDefer<void>()
   routePromises.index = index
   router.push('/')
@@ -67,5 +72,5 @@ it('Testing App Routing', async () => {
   expect(container.innerHTML).toContain('e2e testing home')
   button = container.querySelector('button')
   expect(button).toBeTruthy()
-  expect(button.innerHTML).toContain('count is 0')
+  expect(button?.innerHTML).toContain('count is 0')
 })
