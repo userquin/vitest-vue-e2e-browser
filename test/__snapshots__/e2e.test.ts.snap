@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Testing App Router > mounts 1`] = `"<div class=\\"home\\"><h1>Home</h1><p>Home page content goes here.</p><a href=\\"#/about\\" class=\\"\\"> Go to About </a></div>"`;
+
+exports[`Testing App Routing > mounts 1`] = `"<div class=\\"home\\"><h1>Home</h1><p>Home page content goes here.</p><a href=\\"#/about\\" class=\\"\\"> Go to About </a></div>"`;
