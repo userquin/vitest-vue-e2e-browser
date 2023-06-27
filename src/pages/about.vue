@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import HelloWorld from '../components/HelloWorld.vue'
 </script>
 
 <template>
@@ -8,6 +9,7 @@
     <RouterLink to="/">
       Go to Home
     </RouterLink>
+    <HelloWorld msg="e2e testing about" />
   </div>
 </template>
 
