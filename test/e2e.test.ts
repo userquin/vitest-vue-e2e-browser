@@ -1,5 +1,3 @@
-/// <reference types="vitest" />
-
 import { nextTick } from 'vue'
 import { setupApp } from '../src/setup-app'
 
