@@ -5,9 +5,6 @@
     <RouterLink to="about">
       Go to About
     </RouterLink>
-    <!--
-    <HelloWorld msg="e2e testing" />
--->
   </div>
 </template>
 

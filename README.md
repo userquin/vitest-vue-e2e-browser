@@ -16,3 +16,10 @@ This repo is using [pnpm](https://pnpm.io) as package manager.
 <!--
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/userquin/vitest-vue-e2e-browser)
 -->
+
+
+## Vue DevTools
+
+Vue DevTools is detecting the app inside `@vitest/browser`: `Select component in the page` button not working.
+
+![Vue DevTools](./public/vue-devtools.png)

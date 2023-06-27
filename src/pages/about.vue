@@ -8,9 +8,6 @@
     <RouterLink to="/">
       Go to Home
     </RouterLink>
-    <!--
-    <HelloWorld msg="e2e testing" />
--->
   </div>
 </template>
 
