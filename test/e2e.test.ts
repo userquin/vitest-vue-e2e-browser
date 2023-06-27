@@ -1,18 +1,20 @@
-/// <reference types="vitest" />
-
 import { createApp, nextTick } from 'vue'
 import { createDefer } from 'vitest/utils'
 import type { RouteLocationNormalized } from 'vue-router'
 import { createRouter } from '../src/create-router'
 import App from '../src/App.vue'
 
-const routePromises: Record<string, Promise<void> & {
-  resolve: () => void
-  reject: (error?: any) => void
-}> = {}
+const routePromises: Record<string, ReturnType<typeof createDefer<void>>> = {}
 
 function findPromise(route: RouteLocationNormalized) {
   return routePromises[route.path] ?? (route.name ? routePromises[route.name.toString()] : undefined)
+}
+
+function executeRouteAction(route: string, action: () => void) {
+  const promise = createDefer<void>()
+  routePromises[route] = promise
+  action()
+  return promise
 }
 
 it('Testing App Routing', async () => {
@@ -38,7 +40,6 @@ it('Testing App Routing', async () => {
 
   await nextTick()
   expect(container).toBeTruthy()
-  expect(container.innerHTML).toContain('Home')
   expect(container.innerHTML).toContain('Home page content goes here.')
   expect(container.innerHTML).toContain('e2e testing home')
   // expect(container.innerHTML).toMatchSnapshot()
@@ -50,11 +51,8 @@ it('Testing App Routing', async () => {
   expect(button?.innerHTML).toContain('count is 1')
   const link: HTMLAnchorElement | null = container.querySelector('a[href$="about"]')
   expect(link).toBeTruthy()
-  const about = createDefer<void>()
-  routePromises.about = about
-  link?.click()
-  await about
-  expect(container.innerHTML).toContain('About')
+  // go to about
+  await executeRouteAction('about', () => link?.click())
   expect(container.innerHTML).toContain('About page content goes here.')
   expect(container.innerHTML).toContain('e2e testing about')
   button = container.querySelector('button')
@@ -64,10 +62,8 @@ it('Testing App Routing', async () => {
   await nextTick()
   await nextTick()
   expect(button?.innerHTML).toContain('count is 1')
-  const index = createDefer<void>()
-  routePromises.index = index
-  router.push('/')
-  await index
+  // back to home
+  await executeRouteAction('index', () => router.push('/'))
   expect(container.innerHTML).toContain('Home page content goes here.')
   expect(container.innerHTML).toContain('e2e testing home')
   button = container.querySelector('button')
