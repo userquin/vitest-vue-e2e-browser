@@ -13,10 +13,7 @@ This repo is using [pnpm](https://pnpm.io) as package manager.
 
 `pnpm install && pnpm test:e2e`
 
-<!--
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/userquin/vitest-vue-e2e-browser)
--->
-
 
 ## Vue DevTools
 
