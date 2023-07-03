@@ -30,7 +30,7 @@
     "vitest": "file:vitest-0.32.2.tgz",
     "vue-tsc": "^1.8.2"
   },
-  "xstackblitz": {
+  "stackblitz": {
     "startCommand": "pnpm run test:e2e"
   }
 }
